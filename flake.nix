@@ -12,6 +12,10 @@
           path = ./jupyter;
           description = "Nix enironment for jupyter notebooks";
         };
+        latex = {
+          path = ./latex;
+          description = "Nix enironment for latex documents";
+        };
       };
 
       defaultTemplate = self.templates.shell;
