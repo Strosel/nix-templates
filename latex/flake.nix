@@ -13,9 +13,7 @@
         tex = pkgs.texlive.combine {
           inherit (pkgs.texlive) scheme-minimal latex-bin latexmk tools babel-swedish
             # Add tex deps here
-            titlesec titling tcolorbox pgf environ etoolbox pdfcol
-            tikzfill ltxcmds infwarerr amsmath listings enumitem
-            fancyhdr float caption geometry fontspec epstopdf-pkg;
+            ;
         };
       in
       rec {
