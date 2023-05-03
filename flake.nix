@@ -12,9 +12,9 @@
           path = ./jupyter;
           description = "Nix enironment for jupyter notebooks";
         };
-        latex = {
-          path = ./latex;
-          description = "Nix enironment for latex documents";
+        tectonic = {
+          path = ./tectonic;
+          description = "Nix enironment for latex documents using tectonic";
         };
       };
 

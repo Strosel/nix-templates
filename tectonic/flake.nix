@@ -1,5 +1,5 @@
 {
-  description = "Nix enironment for latex documents";
+  description = "Nix enironment for latex documents using tectonic";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/master";
