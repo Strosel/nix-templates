@@ -16,6 +16,10 @@
           path = ./tectonic;
           description = "Nix enironment for latex documents using tectonic";
         };
+        latex = {
+          path = ./latex;
+          description = "Nix enironment for latex documents using latexmk and lualatex";
+        };
       };
 
       defaultTemplate = self.templates.shell;
