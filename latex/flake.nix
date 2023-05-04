@@ -10,6 +10,7 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
+        tex_src = "src";
         tex = pkgs.texlive.combine {
           inherit (pkgs.texlive) scheme-minimal latex-bin latexmk tools babel-swedish
             # Add tex deps here
@@ -20,7 +21,7 @@
         # https://flyx.org/nix-flakes-latex/
         packages.default = pkgs.stdenvNoCC.mkDerivation rec {
           name = "latex-demo-document";
-          src = self;
+          src = ./.;
           buildInputs = [ pkgs.coreutils tex ];
           phases = [ "unpackPhase" "buildPhase" "installPhase" ];
           buildPhase = ''
@@ -28,11 +29,11 @@
             mkdir -p .cache/texmf-var
             env TEXMFHOME=.cache TEXMFVAR=.cache/texmf-var \
               latexmk -interaction=nonstopmode -pdf -lualatex -file-line-error \
-              src/index.tex
+              ${tex_src}/index.tex
           '';
           installPhase = ''
             mkdir -p $out
-            cp src/index.pdf $out/
+            cp ${tex_src}/index.pdf $out/
           '';
         };
 
@@ -42,10 +43,10 @@
           text = ''
             # Watch
             latexmk -interaction=nonstopmode -pdf -lualatex -file-line-error -pvc \
-              src/index.tex
+              ${tex_src}/index.tex
 
             # Cleanup aux and similar since apps run locally and not in nix-store
-            latexmk -C src/index.tex
+            latexmk -C ${tex_src}/index.tex
           '';
         };
 
