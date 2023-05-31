@@ -20,8 +20,8 @@
           path = ./latex;
           description = "Nix enironment for latex documents using latexmk and lualatex";
         };
-      };
 
-      defaultTemplate = self.templates.shell;
+        default = self.templates.shell;
+      };
     };
 }
