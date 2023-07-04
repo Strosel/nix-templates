@@ -9,12 +9,12 @@ rec {
   buildLatex = { index, fonts, flags ? "" }: ''
     mkdir -p .cache/texmf-var
     env TEXMFHOME=.cache TEXMFVAR=.cache/texmf-var \
-      OSFONTDIR=${fonts}/share/fonts \
+      ${if fonts != null then "OSFONTDIR=${fonts}/share/fonts" else ""} \
       latexmk -interaction=nonstopmode -pdf -lualatex -file-line-error ${flags} \
       ${index}.tex \
   '';
 
-  mkLatexProject = { name, src ? ./., latexInputs, index ? "index", fonts }:
+  mkLatexProject = { name, src ? ./src, latexInputs, index ? "index", fonts ? null }:
     let
       raw_src = pathToStr src;
     in
