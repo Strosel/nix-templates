@@ -42,7 +42,7 @@ rec {
         text = ''
           cd ${raw_src}
           # Watch
-            ${buildLatex {inherit index fonts; flags='' -pvc -e "\$pdf_previewer='zathura'" '';}} || \
+          ${buildLatex {inherit index fonts; flags='' -pvc -e "\$pdf_previewer='zathura'" '';}}
           # Cleanup aux and similar since apps run locally and not in nix-store
           latexmk -C ${index}.tex
           rm -r .cache
