@@ -1,11 +1,11 @@
 { pkgs }:
 rec {
 
-  buildLatex = { src ? ".", index, cache ? ".cache", fonts, flags ? "" }: ''
+  buildLatex = { index, cache ? ".cache", fonts, flags ? "" }: ''
     env TEXMFHOME="${cache}" TEXMFVAR="${cache}/texmf-var" \
       ${if fonts != null then "OSFONTDIR=${fonts}/share/fonts" else ""} \
       latexmk -interaction=nonstopmode -pdf -lualatex -cd -file-line-error ${flags} \
-      ${src}/${index}.tex \
+      ${index}.tex \
   '';
 
   mkLatexProject = { name, src ? ./src, latexInputs, index ? "index", fonts ? null }:
@@ -37,8 +37,11 @@ rec {
           mkdir -p "$auxdir/texmf-var"
           echo "Made auxdir '$auxdir'"
 
+          # Extract relative path from nix and git
+          cd "$(expr "${builtins.toString src}" : "/nix/store/[0-9a-zA-Z]*-source/$(git rev-parse --show-prefix)\(.*\)")"
+
           # Watch
-          ${buildLatex {inherit src index fonts; cache="$auxdir"; flags='' -pvc -e "\$pdf_previewer='zathura'" -outdir="$auxdir"'';}}
+          ${buildLatex {inherit index fonts; cache="$auxdir"; flags='' -pvc -e "\$pdf_previewer='zathura'" -outdir="$auxdir"'';}}
           # Cleanup aux and similar since apps run locally and not in nix-store
           rm -r "$auxdir"
         '';
