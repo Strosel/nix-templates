@@ -18,7 +18,7 @@
         };
 
         strosel = import strosel-utils { inherit pkgs; };
-        doc = strosel.mkLatexProject {
+        doc = strosel.lib.latex.mkLatexProject {
           name = "latex-demo-document";
           latexInputs = tex;
         };
