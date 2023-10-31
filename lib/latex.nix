@@ -1,5 +1,13 @@
 { pkgs }:
 rec {
+  prepareTruetypeFonts = { name, version, src ? ./fonts }: pkgs.stdenvNoCC.mkDerivation {
+    inherit name version src;
+    phases = [ "unpackPhase" "installPhase" ];
+    installPhase = ''
+      mkdir -p $out/share/fonts/truetype
+      cp *.ttf $out/share/fonts/truetype/
+    '';
+  };
 
   buildLatex = { index, cache ? ".cache", compiler, fonts, flags ? "" }: ''
     env TEXMFHOME="${cache}" TEXMFVAR="${cache}/texmf-var" \
