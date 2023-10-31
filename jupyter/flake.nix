@@ -4,31 +4,20 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/master";
     flake-utils.url = "github:numtide/flake-utils";
+    strosel-utils.url = "github:strosel/nix-templates";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, strosel-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        python = "python311";
-        pythonPackages = python + "Packages";
+        strosel = import strosel-utils { inherit pkgs; };
       in
       {
-        devShells.default = pkgs.mkShell {
-          packages = [ pkgs.starship ];
-
-          shellHook = ''
-            eval "$(starship init bash)"
-          '';
-
-          buildInputs = [
-            # Add non-python deps here
-            (pkgs.${python}.withPackages (ps: with ps; [
-              # Add python deps here
-              pip
-            ]))
-            pkgs.${pythonPackages}.jupyter
-          ];
+        devShells.default = strosel-utils.lib.jupyter.mkJupyter {
+          name = "jupyter-notebook";
+          python = "python310";
+          withPackages = ps: with ps; [ ];
         };
       });
 }
