@@ -15,20 +15,18 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          packages = [ pkgs.starship ];
-
-          shellHook = ''
-            eval "$(starship init bash)"
-          '';
-
+          name = "jupyter-notebook";
           buildInputs = [
+            pkgs.${pythonPackages}.jupyter
             # Add non-python deps here
             (pkgs.${python}.withPackages (ps: with ps; [
               # Add python deps here
               pip
             ]))
-            pkgs.${pythonPackages}.jupyter
           ];
+          shellHook = ''
+            jupyter notebook && exit # exit nix-shell when closing notebook
+          '';
         };
       });
 }
