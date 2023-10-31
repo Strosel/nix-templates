@@ -14,7 +14,7 @@
         strosel = import strosel-utils { inherit pkgs; };
       in
       {
-        devShells.default = strosel-utils.lib.jupyter.mkJupyter {
+        devShells.default = strosel.lib.jupyter.mkJupyter {
           name = "jupyter-notebook";
           python = "python310";
           withPackages = ps: with ps; [ ];
