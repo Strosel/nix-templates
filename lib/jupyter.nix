@@ -15,7 +15,7 @@
           (pkgs.${python}.withPackages withPackages)
         ];
         shellHook = ''
-          jupyter ${if lab then "lab" else "notebook"} && exit # exit nix-shell when closing jupyter
+          jupyter ${if lab then "lab --LabApp.extension_manager=readonly" else "notebook"} && exit # exit nix-shell when closing jupyter
         '';
       };
 }
