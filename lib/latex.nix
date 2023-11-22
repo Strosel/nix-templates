@@ -47,6 +47,8 @@ rec {
 
           # Extract relative path from nix and git
           cd "$(expr "${builtins.toString src}" : "/nix/store/[0-9a-zA-Z]*-source/$(git rev-parse --show-prefix)\(.*\)")"
+          # Recreate directory structure for aux files
+          find . -type d -exec mkdir -p -- "$auxdir/{}" \;
 
           # Watch
           ${buildLatex {inherit index fonts compiler; cache="$auxdir"; flags='' -pvc -e "\$pdf_previewer='zathura'" -outdir="$auxdir"'';}}
