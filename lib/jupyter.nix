@@ -10,16 +10,16 @@
       inherit name;
       buildInputs = [
         (python.withPackages (ps:
-          with ps; [
-            pip
-            (
-              if lab
-              then jupyterlab
-              else jupyter
-            )
-          ]))
-
-        (python.withPackages withPackages)
+          with ps;
+            [
+              pip
+              (
+                if lab
+                then jupyterlab
+                else jupyter
+              )
+            ]
+            ++ (withPackages ps)))
       ];
       shellHook = ''
         jupyter ${
@@ -39,8 +39,12 @@
     lab = pkgs.writeShellApplication {
       inherit name;
       runtimeInputs = [
-        (pkgs.${python}.withPackages (ps: [ps.jupyterlab]))
-        (pkgs.${python}.withPackages withPackages)
+        (pkgs.${python}.withPackages (
+          ps:
+            with ps;
+              [pip jupyterlab]
+              ++ (withPackages ps)
+        ))
       ];
       text = ''
         jupyter-lab --LabApp.extension_manager=readonly ${extraArgs} .
