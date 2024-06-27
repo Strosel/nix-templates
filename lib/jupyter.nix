@@ -39,7 +39,7 @@
     lab = pkgs.writeShellApplication {
       inherit name;
       runtimeInputs = [
-        (pkgs.${python}.withPackages (
+        (python.withPackages (
           ps:
             with ps;
               [pip jupyterlab]
