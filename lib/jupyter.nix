@@ -17,7 +17,8 @@
                 if lab
                 then jupyterlab
                 else jupyter
-              )
+                )
+                ipywidgets
             ]
             ++ (withPackages ps)))
       ];
@@ -42,7 +43,7 @@
         (python.withPackages (
           ps:
             with ps;
-              [pip jupyterlab]
+              [pip jupyterlab ipywidgets]
               ++ (withPackages ps)
         ))
       ];
